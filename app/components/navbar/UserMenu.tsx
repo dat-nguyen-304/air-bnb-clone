@@ -8,6 +8,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { SafeUser } from "@/app/types";
+import useRentModal from "@/app/hooks/useRentModal";
 
 interface UserMenuProps {
     currentUser?: SafeUser | null
@@ -18,15 +19,23 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     const [isOpen, setIsOpen] = useState(false);
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
+    const rentModal = useRentModal();
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value)
     }, []);
 
+    const onRent = () => {
+        if (!currentUser) {
+            return loginModal.onOpen();
+        }
+        rentModal.onOpen();
+    }
+
     return (
         <div className='relative'>
             <div className='flex flex-row items-center gap-3'>
-                <div onClick={ () => { } } className='hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover: bg-neutral-100 cursor-pointer'>
+                <div onClick={ onRent } className='hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover: bg-neutral-100 cursor-pointer'>
                     Airbnb your home
                 </div>
                 <div onClick={ toggleOpen } className='p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'>
@@ -57,10 +66,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                                     label="My properties"
                                     onClick={ () => router.push('/properties') }
                                 />
-                                {/* <MenuItem
+                                <MenuItem
                                     label="Airbnb your home"
                                     onClick={ rentModal.onOpen }
-                                /> */}
+                                />
                                 <hr />
                                 <MenuItem
                                     label="Logout"
