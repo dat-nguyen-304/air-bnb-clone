@@ -23,6 +23,7 @@ export default async function getListings(params: IListingsParams) {
             endDate,
             category
         } = params;
+        console.log(params);
 
         let query: any = {};
 

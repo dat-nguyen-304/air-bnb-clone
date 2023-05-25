@@ -8,6 +8,7 @@ import LoginModal from './components/modals/LoginModal';
 import getCurrentUser from './actions/getCurrentUser';
 import { SafeUser } from './types';
 import RentModal from './components/modals/RentModal';
+import SearchModal from './components/modals/SearchModal';
 
 export const metadata = {
   title: 'hello world',
@@ -30,6 +31,7 @@ export default async function RootLayout({
         <ClientOnly>
           <ToasterProvider />
           <LoginModal />
+          <SearchModal />
           <RegisterModal />
           <RentModal />
           <Navbar currentUser={ currentUser } />
